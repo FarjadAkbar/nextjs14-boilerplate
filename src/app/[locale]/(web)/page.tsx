@@ -1,8 +1,7 @@
-"use client"
 import * as React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-
+import {useTranslations} from 'next-intl';
 
 interface HtmlProps extends React.HTMLAttributes<HTMLElement> {
   section?: boolean;
@@ -31,12 +30,13 @@ function Box({ children, className, section, ...props }: HtmlProps) {
 }
 
 export default function Home() {
+  const t = useTranslations('Index');
   return (
     <>
       {/* Hero Section */}
       <Box section={true}>
         <Box>
-          <h1 className="text-6xl font-bold">Hello World</h1>
+          <h1 className="text-6xl font-bold">{t('title')}</h1>
           <p className="text-lg mt-2 mb-4 text-gray-600">
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit, at. Culpa minus molestiae animi at recusandae impedit atque eius! Earum quasi voluptatum assumenda eum sequi illum fugit error eveniet ducimus.
           </p>
@@ -45,7 +45,7 @@ export default function Home() {
           </Link>
         </Box>
         <Box>
-          <Image className='lg:mr-0 mr-auto ml-auto' src="/images/hero.png" alt="hero" width={500} height={500} />
+          <Image className='lg:mr-0 mr-auto ml-auto' src="/images/banner.jpg" alt="hero" width={500} height={500} />
         </Box>
       </Box>
     </>

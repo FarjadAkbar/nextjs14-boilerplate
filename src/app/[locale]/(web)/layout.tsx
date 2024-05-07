@@ -1,4 +1,4 @@
-import { Locale } from "@/i18n.config";
+import { Locale } from "@/i18n";
 
 
 export default async function WebLayout({
