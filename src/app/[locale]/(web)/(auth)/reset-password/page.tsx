@@ -5,10 +5,11 @@ import { toast } from "react-toastify";
 import { Loader2 } from "lucide-react"
 import { redirect, useSearchParams } from "next/navigation";
 import { z } from "zod";
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Button } from "@/components/button"
+import { Input } from "@/components/input"
+import { Label } from "@/components/label"
 import { useResetPassword } from "@/hooks/reset-password";
+import styles from '../AuthLayout.module.scss';
 
 interface FormData {
   password: string;
@@ -69,38 +70,36 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="mx-auto grid w-[350px] gap-6">
-      <div className="grid gap-2 text-center">
-        <h1 className="text-3xl font-bold">Create New Password</h1>
-        <p className="text-balance text-muted-foreground">
+    <div className={styles["container"]}>
+      <div className={styles["header-section"]}>
+        <h1>Create New Password</h1>
+        <p>
           Set your new password so you can login
         </p>
       </div>
-      <form className="grid gap-4" onSubmit={handleSubmit(submitHandler)}>
-        <div className="grid gap-2">
+      <form onSubmit={handleSubmit(submitHandler)}>
+        <div className={styles["input-group"]}>
           <Label htmlFor="password">Password</Label>
-          <Input id="password" type="password" required  {...register('password', { required: 'Password is required' })} />
-          {errors.password && <p className="text-red-500 pt-1 text-xs">{errors.password.message}</p>}
+          <Input id="password" type="password" {...register("password")} error={errors.password} />
         </div>
 
-        <div className="grid gap-2">
+        <div className={styles["input-group"]}>
           <Label htmlFor="confirmPassword">Confirm Password</Label>
-          <Input id="confirmPassword" type="password" required  {...register('confirmPassword', { required: 'Confirm Password is required' })} />
-          {errors.confirmPassword && <p className="text-red-500 pt-1 text-xs">{errors.confirmPassword.message}</p>}
+          <Input id="confirmPassword" type="password" {...register("confirmPassword")} error={errors.confirmPassword} />
         </div>
 
-        <Button type="submit" className="w-full" disabled={isPending}>
+        <Button type="submit" disabled={isPending}>
           {
             isPending && (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              <Loader2 className="animate-spin" />
             )
           }
           Change Password
         </Button>
       </form>
-      <div className="mt-4 text-center text-sm">
+      <div className={styles["footer-section"]}>
         Know your password?{" "}
-        <Link href="/signin" className="underline">
+        <Link href="/signin">
           Sign in
         </Link>
       </div>

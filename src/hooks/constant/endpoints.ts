@@ -6,4 +6,10 @@ export enum ENDPOINTS {
   RESET_PASSWORD = "/auth/reset/password",
   FORGOT_PASSWORD = "/auth/forgot/password",
   UPLOAD = "/files/upload",
+  PRODUCTS = "/products",
+  CATEGORIES = "/categories",
+  ORDERS = "/orders",
+  ORDER = "/orders/:id",
+  CART = "/cart",
+  CHECKOUT = "/checkout",
 }

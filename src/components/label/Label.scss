@@ -1,0 +1,11 @@
+.label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: #4a5568;
+  
+    &.error {
+      color: #e53e3e;
+    }
+  }
+  

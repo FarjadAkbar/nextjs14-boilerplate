@@ -1,0 +1,61 @@
+// Hero Section Container
+.hero-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5rem;
+    padding: 4rem 1rem;
+    overflow-x: hidden;
+  
+    @media (min-width: 1024px) {
+      flex-direction: row;
+      overflow-x: visible;
+      padding: 4rem 4rem;
+    }
+  }
+  
+  // Box Section Styling
+  .box {
+    width: 100%;
+    padding: 2rem 0;
+    position: relative;
+  
+    &.half {
+      width: 50%;
+    }
+  }
+  
+  // Content and Image Styling
+  .text-content {
+    h1 {
+      font-size: 4rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+  
+    p {
+      font-size: 1.125rem;
+      margin: 1rem 0;
+      color: #4a4a4a;
+    }
+  
+    a {
+      text-decoration: underline;
+      color: #1d4ed8;
+      transition: color 0.3s;
+  
+      &:hover {
+        color: #2563eb;
+      }
+    }
+  }
+  
+  .hero-image {
+    margin: 0 auto;
+  
+    @media (min-width: 1024px) {
+      margin-right: 0;
+    }
+  }
+  

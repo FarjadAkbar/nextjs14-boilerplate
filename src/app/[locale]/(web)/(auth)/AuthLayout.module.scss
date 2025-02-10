@@ -1,0 +1,133 @@
+@import 'variable.scss';
+
+.auth-layout {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+
+  min-height: 100vh;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Left Section */
+  .content-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+
+
+    // Base Styles
+    .container {
+      max-width: 350px;
+      margin: 0 auto;
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .header-section {
+      text-align: center;
+
+      h1 {
+        font-size: 2rem;
+        font-weight: bold;
+      }
+
+      p {
+        color: $text-color-muted;
+        font-size: 0.875rem;
+      }
+    }
+
+    form {
+      display: grid;
+      gap: 1rem;
+
+      .grid-cols-2 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+
+      .input-group {
+        display: grid;
+        gap: 0.5rem;
+      }
+
+      .password-group {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        a {
+          font-size: 0.75rem;
+          text-decoration: underline;
+          color: $primary-color;
+
+          &:hover {
+            color: darken($primary-color, 10%);
+          }
+        }
+      }
+    }
+
+    .footer-section {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.875rem;
+
+      a {
+        text-decoration: underline;
+        color: $primary-color;
+
+        &:hover {
+          color: darken($primary-color, 10%);
+        }
+      }
+    }
+  }
+
+  /* Right Section with background */
+  .image-section {
+    display: none;
+
+    @media (min-width: 1024px) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: url('/images/auth-bg.png') no-repeat center center;
+      background-size: cover;
+      flex-grow: 1;
+    }
+
+    .inner-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 3rem 1.5rem;
+
+      @media (min-width: 1024px) {
+        padding: 5rem 3rem;
+      }
+
+      .banner-image {
+        display: block;
+        margin: 0 auto;
+        max-width: 100%;
+      }
+
+      .welcome-text {
+        color: #ffffff;
+        font-size: 2.5rem;
+        font-weight: bold;
+        padding-top: 1rem;
+
+        @media (min-width: 1024px) {
+          font-size: 3rem;
+        }
+      }
+    }
+  }
+}

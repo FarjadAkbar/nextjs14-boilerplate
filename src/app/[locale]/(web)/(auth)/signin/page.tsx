@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { signIn } from "next-auth/react";
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { toast } from "react-toastify";
-import { Loader2 } from "lucide-react"
+import { Button } from "@/components/button"
+import { Input } from "@/components/input"
+import { Label } from "@/components/label"
+import toast from 'react-hot-toast';
+import styles from '../AuthLayout.module.scss';
 
 interface FormData {
     email: string;
@@ -61,53 +61,39 @@ export default function Signin() {
     };
 
     return (
-        <div className="mx-auto grid w-[350px] gap-6">
-            <div className="grid gap-2 text-center">
-                <h1 className="text-3xl font-bold">Sign In</h1>
-                <p className="text-balance text-muted-foreground">
+        <div className={styles["container"]}>
+            <div className={styles["heading-section"]}>
+                <h1>Sign In</h1>
+                <p>
                     Enter your email below to login to your account
                 </p>
             </div>
-            <form className="grid gap-4" onSubmit={handleSubmit(submitHandler)}>
-                <div className="grid gap-2">
+            <form onSubmit={handleSubmit(submitHandler)}>
+                <div className={styles["input-group"]}>
                     <Label htmlFor="email">Email</Label>
-                    <Input
-                        id="email"
-                        type="email"
-                        placeholder="m@example.com"
-                        required
-                        {...register('email', { required: 'Email is required' })}
-                    />
-                    {errors.email && <p className="text-red-500 pt-1 text-xs">{errors.email.message}</p>}
+                    <Input id="email" type="email" placeholder="m@example.com" {...register("email")} error={errors.email} />
                 </div>
-                <div className="grid gap-2">
-                    <div className="flex items-center">
+                <div className={styles["input-group"]}>
+                    <div className={styles["password-group"]}>
                         <Label htmlFor="password">Password</Label>
                         <Link
                             href="/forgot-password"
-                            className="ml-auto inline-block text-sm underline"
                         >
                             Forgot your password?
                         </Link>
                     </div>
-                    <Input id="password" type="password" required  {...register('password', { required: 'Password is required' })} />
-                    {errors.password && <p className="text-red-500 pt-1 text-xs">{errors.password.message}</p>}
+                    <Input id="password" type="password" {...register("password")} error={errors.password} />
                 </div>
-                <Button type="submit" className="w-full" disabled={loading}>
-                    {
-                        loading && (
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        )
-                    }
+                <Button type="submit" loading={loading}>
                     Sign In
                 </Button>
-                <Button variant="outline" className="w-full" disabled={loading}>
+                <Button variant="outline">
                     Continue with Google
                 </Button>
             </form>
-            <div className="mt-4 text-center text-sm">
+            <div className={styles["footer-section"]}>
                 Don&apos;t have an account?{" "}
-                <Link href="/signup" className="underline">
+                <Link href="/signup">
                     Sign up
                 </Link>
             </div>

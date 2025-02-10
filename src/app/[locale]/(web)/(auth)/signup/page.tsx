@@ -3,12 +3,13 @@ import Link from "next/link"
 import { redirect } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Button } from "@/components/button"
+import { Input } from "@/components/input"
+import { Label } from "@/components/label"
 import { useRegister } from "@/hooks/register";
 import { toast } from "react-toastify";
 import { Loader2 } from "lucide-react"
+import styles from '../AuthLayout.module.scss';
 
 interface FormData {
     fullname: string;
@@ -20,22 +21,24 @@ interface FormData {
 
 export default function Signup() {
     const { isPending, isSuccess, mutate, isError, error } = useRegister();
-    const schema = z.object({
-        fullname: z.string(),
-        username: z.string(),
-        email: z.string().email("Invalid email format").min(1),
-        password: z.string().regex(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, "Must contain at alphanumeric and special characters").min(8, "Password must be at least 8 characters"),
-        confirmPassword: z.string().min(8, "Confirm Password must be at least 8 characters")
-    }).refine(
-        (values) => {
-          return values.password === values.confirmPassword;
-        },
-        {
-          message: "Passwords must match!",
-          path: ["confirmPassword"],
-        }
-      );
-    
+    const schema = z
+  .object({
+    fullname: z.string().min(1, "Full name is required"),
+    username: z.string().min(1, "Username is required"),
+    email: z.string().email("Invalid email format"),
+    password: z
+      .string()
+      .regex(
+        /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
+        "Must contain alphanumeric and special characters",
+      )
+      .min(8, "Password must be at least 8 characters"),
+    confirmPassword: z.string().min(8, "Confirm Password must be at least 8 characters"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords must match!",
+    path: ["confirmPassword"],
+  })
 
     const {
         register,
@@ -51,12 +54,7 @@ export default function Signup() {
                 email: data.email,
                 password: data.password,
                 fullname: data.fullname,
-                role: 2,
-                username: data.username,
-                phoneNumber: "92334444",
-                university: {
-                    id: 1
-                }
+                username: data.username
             });
             if (isSuccess) {
                 toast.success("Registration successfully !", { position: "top-right" });
@@ -82,64 +80,45 @@ export default function Signup() {
     };
 
     return (
-        <div className="mx-auto grid w-[350px] gap-6">
-            <div className="grid gap-2 text-center">
-                <h1 className="text-3xl font-bold">Sign Up</h1>
-                <p className="text-balance text-muted-foreground">
-                    Enter your information to create an account
-                </p>
+        <div className={styles["container"]}>
+            <div className={styles["header-section"]}>
+                <h1>Sign Up</h1>
+                <p>Enter your information to create an account</p>
             </div>
-            <form className="grid gap-4" onSubmit={handleSubmit(submitHandler)}>
-                <div className="grid grid-cols-2 gap-4">
-                    <div className="grid gap-2">
-                        <Label htmlFor="full-name">Full name</Label>
-                        <Input id="full-name" placeholder="Max" required {...register('fullname', { required: 'Name is required' })} />
-                        {errors.fullname && <p className="text-red-500 pt-1 text-xs">{errors.fullname.message}</p>}
-                    </div>
-                    <div className="grid gap-2">
-                        <Label htmlFor="user-name">User name</Label>
-                        <Input id="user-name" placeholder="Robinson" required  {...register('username', { required: 'User Name is required' })} />
-                        {errors.username && <p className="text-red-500 pt-1 text-xs">{errors.username.message}</p>}
-                    </div>
-                </div>
-                <div className="grid gap-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                        id="email"
-                        type="email"
-                        placeholder="m@example.com"
-                        required
-                        {...register('email', { required: 'Email is required' })}
-                    />
-                    {errors.email && <p className="text-red-500 pt-1 text-xs">{errors.email.message}</p>}
-                </div>
-                <div className="grid gap-2">
-                    <Label htmlFor="password">Password</Label>                       
-                    <Input id="password" type="password" required  {...register('password', { required: 'Password is required' })} />
-                    {errors.password && <p className="text-red-500 pt-1 text-xs">{errors.password.message}</p>}
-                </div>
-
-                <div className="grid gap-2">
-                    <Label htmlFor="confirmPassword">Confirm Password</Label>                       
-                    <Input id="confirmPassword" type="password" required  {...register('confirmPassword', { required: 'Confirm Password is required' })} />
-                    {errors.confirmPassword && <p className="text-red-500 pt-1 text-xs">{errors.confirmPassword.message}</p>}
-                </div>
-
-                <Button type="submit" className="w-full" disabled={isPending}>
-                    {
-                        isPending && (
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        )
-                    }
-                    Create an account
-                </Button>
-                <Button variant="outline" className="w-full" disabled={isPending}>
-                    Continue with Google
-                </Button>
-            </form>
-            <div className="mt-4 text-center text-sm">
+            <form onSubmit={handleSubmit(submitHandler)}>
+        <div className={styles["grid-cols-2"]}>
+          <div className={styles["input-group"]}>
+            <Label htmlFor="fullname">Full name</Label>
+            <Input id="fullname" placeholder="Max" {...register("fullname")} error={errors.fullname} />
+          </div>
+          <div className={styles["input-group"]}>
+            <Label htmlFor="username">User name</Label>
+            <Input id="username" placeholder="Robinson" {...register("username")} error={errors.username} />
+          </div>
+        </div>
+        <div className={styles["input-group"]}>
+          <Label htmlFor="email">Email</Label>
+          <Input id="email" type="email" placeholder="m@example.com" {...register("email")} error={errors.email} />
+        </div>
+        <div className={styles["input-group"]}>
+          <Label htmlFor="password">Password</Label>
+          <Input id="password" type="password" {...register("password")} error={errors.password} />
+        </div>
+        <div className={styles["input-group"]}>
+          <Label htmlFor="confirmPassword">Confirm Password</Label>
+          <Input id="confirmPassword" type="password" {...register("confirmPassword")} error={errors.confirmPassword} />
+        </div>
+        <Button type="submit" disabled={isPending}>
+          {isPending && <Loader2 className="animate-spin" />}
+          Create an account
+        </Button>
+        <Button variant="outline" disabled={isPending}>
+          Continue with Google
+        </Button>
+      </form>
+            <div className={styles["footer-section"]}>
                 Already have an account?{" "}
-                <Link href="/signin" className="underline">
+                <Link href="/signin">
                     Sign in
                 </Link>
             </div>

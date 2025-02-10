@@ -1,4 +1,4 @@
-import { Locale } from "@/i18n";
+import Header from "./_components/Header";
 
 
 export default async function WebLayout({
@@ -9,6 +9,7 @@ export default async function WebLayout({
     return (
       <>
         <main>
+          <Header />
           {children}
         </main>
       </>

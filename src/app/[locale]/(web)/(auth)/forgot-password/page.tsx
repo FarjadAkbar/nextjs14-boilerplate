@@ -3,13 +3,14 @@ import { useState } from "react";
 import Link from "next/link"
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Button } from "@/components/button"
+import { Input } from "@/components/input"
+import { Label } from "@/components/label"
 import { toast } from "react-toastify";
 import { Loader2 } from "lucide-react"
 import { useForgotPassword } from "@/hooks/forgot-password";
 import { redirect } from "next/navigation";
+import styles from '../AuthLayout.module.scss';
 
 interface FormData {
     email: string;
@@ -62,38 +63,31 @@ export default function ForgotPassword() {
     };
 
     return (
-        <div className="mx-auto grid w-[350px] gap-6">
-            <div className="grid gap-2 text-center">
-                <h1 className="text-3xl font-bold">Forgot Password</h1>
-                <p className="text-balance text-muted-foreground">
+        <div className={styles["container"]}>
+            <div className={styles["header-section"]}>
+                <h1>Forgot Password</h1>
+                <p>
                     If you forgot your password you can reset it here
                 </p>
             </div>
-            <form className="grid gap-4" onSubmit={handleSubmit(submitHandler)}>
-                <div className="grid gap-2">
+            <form onSubmit={handleSubmit(submitHandler)}>
+                <div className={styles["input-group"]}>
                     <Label htmlFor="email">Email</Label>
-                    <Input
-                        id="email"
-                        type="email"
-                        placeholder="m@example.com"
-                        required
-                        {...register('email', { required: 'Email is required' })}
-                    />
-                    {errors.email && <p className="text-red-500 pt-1 text-xs">{errors.email.message}</p>}
+                    <Input id="email" type="email" placeholder="m@example.com" {...register("email")} error={errors.email} />
                 </div>
 
-                <Button type="submit" className="w-full" disabled={loading}>
+                <Button type="submit" disabled={loading}>
                     {
                         loading && (
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            <Loader2 className="animate-spin" />
                         )
                     }
                     Reset Password
                 </Button>
             </form>
-            <div className="mt-4 text-center text-sm">
+            <div className={styles["footer-section"]}>
                 Know your password?{" "}
-                <Link href="/signin" className="underline">
+                <Link href="/signin">
                     Sign in
                 </Link>
             </div>
